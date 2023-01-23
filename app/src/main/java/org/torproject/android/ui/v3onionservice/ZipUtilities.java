@@ -43,7 +43,19 @@ public class ZipUtilities {
             FileOutputStream dest = new FileOutputStream(pdf.getFileDescriptor());
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
             byte[] data = new byte[BUFFER];
-            for (String file : files) {
+            /* ********OpenRefactory Warning********
+			 Possible null pointer Dereference!
+			 Path: 
+				File: V3BackupUtils.java, Line: 41
+					zip.zip()
+					 Information about field files (from class ZipUtilities) is passed through the method call. This later results into a null pointer dereference
+					The expression is enclosed inside an If statement.
+				File: ZipUtilities.java, Line: 46
+					files
+					files is used in iteration.
+					The expression is enclosed inside an Enhanced For statement.
+			*/
+			for (String file : files) {
                 FileInputStream fi = new FileInputStream(file);
                 origin = new BufferedInputStream(fi, BUFFER);
                 ZipEntry entry = new ZipEntry(file.substring(file.lastIndexOf("/") + 1));
