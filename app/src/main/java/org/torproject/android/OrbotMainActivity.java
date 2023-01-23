@@ -715,7 +715,19 @@ public class OrbotMainActivity extends AppCompatActivity implements OrbotConstan
     @SuppressLint("SetTextI18n")
     private void updateStatus(String torServiceMsg, String newTorStatus) {
         if (!TextUtils.isEmpty(torServiceMsg)) {
-            if (torServiceMsg.contains(LOG_NOTICE_HEADER)) {
+            
+			/* ********OpenRefactory Warning********
+			 Possible null pointer Dereference!
+			 Path: 
+				File: OrbotMainActivity.java, Line: 562
+					updateStatus(null,torStatus);
+					 Information is passed through the method call via null to the formal param torServiceMsg of the method. This later results into a null pointer dereference.
+				File: OrbotMainActivity.java, Line: 718
+					torServiceMsg.contains(LOG_NOTICE_HEADER)
+					torServiceMsg is referenced in method invocation.
+					The expression is enclosed inside an If statement.
+			*/
+			if (torServiceMsg.contains(LOG_NOTICE_HEADER)) {
                 if (torServiceMsg.contains(LOG_NOTICE_BOOTSTRAPPED) && !mBtnStart.getText().equals(getString(R.string.menu_stop)))
                     lblStatus.setText(torServiceMsg);
             }
