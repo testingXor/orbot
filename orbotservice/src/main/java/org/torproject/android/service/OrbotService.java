@@ -666,7 +666,10 @@ public class OrbotService extends VpnService implements OrbotConstants {
 
         if (packageName != null) {
             reply.setPackage(packageName);
-            sendBroadcast(reply);
+            /* ********OpenRefactory Warning********
+			 Broadcasting message should specify receiver permission.
+			*/
+			sendBroadcast(reply);
         }
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(reply.setAction(LOCAL_ACTION_STATUS));
