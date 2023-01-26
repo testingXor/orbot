@@ -271,7 +271,18 @@ public class AppManagerActivity extends AppCompatActivity implements OnClickList
         StringBuilder tordApps = new StringBuilder();
         Intent response = new Intent();
 
-        for (TorifiedApp tApp:mApps)
+        /* ********OpenRefactory Warning********
+		 Possible null pointer dereference!
+		 Path: 
+			File: AppManagerActivity.java, Line: 302
+				saveAppSettings();
+				 Information about static field mApps (from class AppManagerActivity) is passed through the method call. This later results into a null pointer dereference
+			File: AppManagerActivity.java, Line: 274
+				mApps
+				mApps is used in iteration.
+				The expression is enclosed inside an Enhanced For statement.
+		*/
+		for (TorifiedApp tApp:mApps)
         {
             if (tApp.isTorified())
             {
