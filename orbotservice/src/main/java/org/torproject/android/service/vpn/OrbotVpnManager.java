@@ -247,7 +247,50 @@ public class OrbotVpnManager implements Handler.Callback, OrbotConstants {
                 try {
                     mSocksProxyServer = new ProxyServer(new ServerAuthenticatorNone(null, null));
                     ProxyServer.setVpnService(mService);
-                    mSocksProxyServer.start(sSocksProxyServerPort, 5, InetAddress.getLocalHost());
+                    /* ********OpenRefactory Warning********
+					 Potential data race detected!
+					
+					The data access in 
+					mSocksProxyServer.start(sSocksProxyServerPort,5,InetAddress.getLocalHost())
+					may have race with 1 other access.
+					
+					The mentioned access is performed in a thread spawned by 
+					new Thread(){
+					  public void run(){
+					    if (sSocksProxyServerPort == -1) {
+					      try {
+					        sSocksProxyLocalhost="127.0.0.1";
+					        sSocksProxyServerPort=(int)((Math.random() * 1000) + 10000);
+					      }
+					 catch (      Exception e) {
+					        Log.e(TAG,"Unable to access localhost",e);
+					        throw new RuntimeException("Unable to access localhost: " + e);
+					      }
+					    }
+					    if (mSocksProxyServer != null) {
+					      stopSocksBypass();
+					    }
+					    try {
+					      mSocksProxyServer=new ProxyServer(new ServerAuthenticatorNone(null,null));
+					      ProxyServer.setVpnService(mService);
+					      mSocksProxyServer.start(sSocksProxyServerPort,5,InetAddress.getLocalHost());
+					    }
+					 catch (    Exception e) {
+					      Log.e(TAG,"error getting host",e);
+					    }
+					  }
+					}
+					.start()
+					in file, OrbotVpnManager.java.
+					
+					It may have contending concurrent access 
+					
+					in file, OrbotVpnManager.java, class OrbotVpnManager, method OrbotVpnManager, 
+					
+					sSocksProxyServerPort=-1
+					
+					*/
+					mSocksProxyServer.start(sSocksProxyServerPort, 5, InetAddress.getLocalHost());
 
                 } catch (Exception e) {
                     Log.e(TAG, "error getting host", e);
