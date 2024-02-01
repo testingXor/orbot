@@ -143,7 +143,14 @@ public class AppManagerActivity extends AppCompatActivity implements OrbotConsta
                     convertView.setTag(entry);
                 }
 
-                final TorifiedApp app = mApps.get(position);
+                /* ********OpenRefactory Warning********
+				 Possible null pointer dereference!
+				 Path: 
+					File: AppManagerActivity.java, Line: 146
+						final TorifiedApp app=mApps.get(position);
+						mApps is referenced in method invocation.
+				*/
+				final TorifiedApp app = mApps.get(position);
 
                 if (entry.icon != null) {
 
